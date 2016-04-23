@@ -58,6 +58,10 @@ def histogram():
     s=r['dataset_data']
     for i in s['data']:
         coffee.append(i[1])
+
+    for i in xrange(len(years)):
+        print years[i]+','+str(coffee[i])+','+str(net_values[i])
+
     title='Forest loss in Brazil from January 2015'
 ##    we create the bar chart here:
     bar_chart = pygal.Bar(width=1200, height=600,
