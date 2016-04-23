@@ -50,14 +50,14 @@ def histogram():
         net=loss-gain
         net_values.append(net)
         years.append(i['year'])
-    soya=[]
+    coffee=[]
     years=['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014']
     epComm='https://www.quandl.com/api/v3/datasets/OFDP/FUTURE_KC1/data.json?start_date=2001-01-01&end_date=2014-01-31&column_index=4&collapse=annual&order=asc&api_key=SQx81iJsvvNB_CfFP-5q'
     result=requests.get(epComm)
     r=result.json()
     s=r['dataset_data']
     for i in s['data']:
-        soya.append(i[1])
+        coffee.append(i[1])
     title='Forest loss in Brazil from January 2015'
 ##    we create the bar chart here:
     bar_chart = pygal.Bar(width=1200, height=600,
@@ -76,7 +76,7 @@ def histogram():
     bar_chartc.x_labels = years
 
 ##    The probability values are added to the y axis of the chart
-    bar_chartc.add('Price', soya)
+    bar_chartc.add('Price', coffee)
 
 
     title2='Annual net forest area loss in Brazil- UMD alerts'
@@ -88,7 +88,8 @@ def histogram():
 
 ##    The probability values are added to the y axis of the chart
     bar_chart2.add('Hectares', net_values)
-   
+
+    
 ## we create the html string that we want our web page
 ## to render
     html = """
