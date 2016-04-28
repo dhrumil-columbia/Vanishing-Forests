@@ -34,7 +34,7 @@ def histogram():
             if i['data_type']=='defor':
                 terrai_values.append(i['value'])
 
-    ep='http://api.globalforestwatch.org/forest-change/umd-loss-gain/admin/bra/?period=2015-12-01,2016-01-01'
+    ep='http://api.globalforestwatch.org/forest-change/umd-loss-gain/admin/idn/?period=2015-12-01,2016-01-01'
     pl={"geojson":'{"type":"Polygon","coordinates":[[[12.8,8.9],[13.3,-7.3],[32.5,-6.6],[32.5,7.7],[12.8,8.9]]]}'}
     res=requests.post(ep,pl)
     print res
@@ -52,7 +52,7 @@ def histogram():
         years.append(i['year'])
     coffee=[]
     years=['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014']
-    epComm='https://www.quandl.com/api/v3/datasets/OFDP/FUTURE_KC1/data.json?start_date=2001-01-01&end_date=2014-01-31&column_index=4&collapse=annual&order=asc&api_key=SQx81iJsvvNB_CfFP-5q'
+    epComm='https://www.quandl.com/api/v3/datasets/OFDP/FUTURE_CC1/data.json?start_date=2001-01-01&end_date=2014-01-31&column_index=4&collapse=annual&order=asc&api_key=SQx81iJsvvNB_CfFP-5q'
     result=requests.get(epComm)
     r=result.json()
     s=r['dataset_data']
@@ -72,7 +72,7 @@ def histogram():
 ##    The probability values are added to the y axis of the chart
     bar_chart.add('Hectares', terrai_values)
 
-    titlec='Coffee prices over 2015'
+    titlec='Soybean prices over 2015'
 ##    we create the bar chart here:
     bar_chartc = pygal.Bar(width=1200, height=600,
                           explicit_size=True, title=titlec, style=st3)
