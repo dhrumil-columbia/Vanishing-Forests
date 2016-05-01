@@ -4,7 +4,10 @@
 import flask
 import requests
 from flask import request
+import redis
+import collections
 import json
+import numpy as np
 import pygal
 from pygal.style import LightSolarizedStyle as st
 from pygal.style import LightGreenStyle as st2
@@ -22,15 +25,13 @@ def histogram():
     starts=['2015-01-01','2015-02-01','2015-03-01','2015-04-01','2015-05-01','2015-06-01','2015-07-01','2015-08-01','2015-09-01','2015-10-01','2015-11-01','2015-12-01','2016-01-01']
     ends=['2015-02-01','2015-03-01','2015-04-01','2015-05-01','2015-06-01','2015-07-01','2015-08-01','2015-09-01','2015-10-01','2015-11-01','2015-12-01','2016-01-01','2016-02-01']
     terrai_values=[]
-    country='bra'
-    commodity_code='OFDP/FUTURE_CC1'
 ##    The months list is used in rendering the x axis of the bar chart
     months=['January','February','March','April','May','June','July','August','September','October','November','December','January']
 ##    We loop over the start and end dates and poll the api to
 ##    obtain the imazon alerts
     for i in range(len(starts)):
 ##        This is the url endpoint for GFW imazon alerts
-        ep='http://api.globalforestwatch.org/forest-change/imazon-alerts/admin/'+country+'/?period='+starts[i]+','+ends[i]
+        ep='http://api.globalforestwatch.org/forest-change/imazon-alerts/admin/bra/?period='+starts[i]+','+ends[i]
 ##        The following is a geojson which must be passed in the POST request, however since
 ##        we mention country iso code in the url endpoint, alerts are given for the nation
         pl={"geojson":'{"type":"Polygon","coordinates":[[[12.8,8.9],[13.3,-7.3],[32.5,-6.6],[32.5,7.7],[12.8,8.9]]]}'}
@@ -45,7 +46,7 @@ def histogram():
                 terrai_values.append(i['value'])
 
 ##This is the url endpoint for umd-loss-gain alert
-    ep='http://api.globalforestwatch.org/forest-change/umd-loss-gain/admin/'+country+'/?period=2015-12-01,2016-01-01'
+    ep='http://api.globalforestwatch.org/forest-change/umd-loss-gain/admin/idn/?period=2015-12-01,2016-01-01'
     pl={"geojson":'{"type":"Polygon","coordinates":[[[12.8,8.9],[13.3,-7.3],[32.5,-6.6],[32.5,7.7],[12.8,8.9]]]}'}
     res=requests.post(ep,pl)
     print res
@@ -68,7 +69,7 @@ def histogram():
 ##    charts    
     years=['2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014']
 ##    This is the endpoint of the quandl API
-    epComm='https://www.quandl.com/api/v3/datasets/'+commodity_code+'/data.json?start_date=2001-01-01&end_date=2014-01-31&column_index=4&collapse=annual&order=asc&api_key=SQx81iJsvvNB_CfFP-5q'
+    epComm='https://www.quandl.com/api/v3/datasets/OFDP/FUTURE_CC1/data.json?start_date=2001-01-01&end_date=2014-01-31&column_index=4&collapse=annual&order=asc&api_key=SQx81iJsvvNB_CfFP-5q'
     result=requests.get(epComm)
     r=result.json()
     s=r['dataset_data']
